@@ -1,0 +1,22 @@
+# /etc/exports
+#
+# See exports(5) for a description.
+
+# use exportfs -arv to reread
+#/export    192.168.1.10(rw,no_root_squash)
+
+/share *(rw,async,no_root_squash,no_subtree_check)
+
+# Uncomment and edit to add more folders to share. remember to mount the additional volumes to the corresponding path
+#$NFS_SHARE $NFS_CLIENT_IP(rw,async,no_root_squash)
+
+# Explanations:
+# `$NFS_SHARE` should be the absolute path
+# `$NFS_CLIENT_IP` is for the client, could be an absolute IP, a CIDR subnet, or `*` wildcard
+# `rw` for read write access, `ro` for read only
+# `async` or `sync`
+# `no_root_squash` allows client's root to write files with owner root on the server
+# another one is `no_all_squash`, so each user on client machine would write files with their own username onto the server
+# `fsid=0` to allow client to connect to `$NFS_SERVER_IP:/` instead of `$NFS_SERVER_IP:$NFS_SHARE`. in a way it's more convenient because you don't need to know the `$NFS_SHARE` path
+# `no_subtree_check`, `no_auth_nlm`, `insecure` are a couple other options, consult NFS documentations
+

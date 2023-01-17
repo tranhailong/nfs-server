@@ -1,0 +1,18 @@
+# Sample K8S deployment config
+#api-version: v2
+#type: Deployment
+spec:
+  containers:
+  - name: $CONTAINER_NAME
+    image: $IMAGE:$VERSION
+    securityContext:
+      privileged: true
+
+#    restart: unless-stopped
+#    volumes:
+#      - ./volumes/share:/share
+#      - ./config/etc/exports:/etc/exports
+#    ports:
+#      - 2049:2049
+#    network: host
+
