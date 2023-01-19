@@ -1,10 +1,13 @@
 # Sample K8S deployment config
+# Note this is incomplete. Will be updated once i got my manual test up and running
+
 #api-version: v2
 #type: Deployment
 spec:
   containers:
-  - name: $CONTAINER_NAME
-    image: $IMAGE:$VERSION
+  - name: ${CONTAINER_NAME}
+    image: tranhailong/${IMAGE}:${VERSION}
+    #image: ${IMAGE}:${VERSION}
     securityContext:
       privileged: true
 
@@ -12,7 +15,7 @@ spec:
 #    volumes:
 #      - ./volumes/share:/share
 #      - ./config/etc/exports:/etc/exports
+#      - ./scripts/startup-gcs.sh:/usr/local/bin/startup-gcs.sh
 #    ports:
 #      - 2049:2049
 #    network: host
-

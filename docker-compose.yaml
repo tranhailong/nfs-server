@@ -1,18 +1,18 @@
 # Sample docker compose file
 
-version: '3.9'
+version: '3'
 
 services:
   nfs:
-    container_name: $CONTAINER_NAME
-    image: $IMAGE:$VERSION
+    container_name: ${CONTAINER_NAME}
+    image: tranhailong/${IMAGE}:${VERSION}
+    #image: ${IMAGE}:${VERSION}
     restart: unless-stopped
     privileged: true
-    volumes:
-      - ./volumes/share:/share
-      - ./config/etc/exports:/etc/exports
+    #volumes:
+    #  - ./volumes/share:/share
+    #  - ./config/etc/exports:/etc/exports
+    #  - ./scripts/startup-gcs.sh:/usr/local/bin/startup-gcs.sh
     ports:
       - 2049:2049
 #    network: host
-
-~                                                                          

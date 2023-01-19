@@ -1,4 +1,0 @@
-VERSION=4.2
-IMAGE=nfs_server
-CONTAINER_NAME=nfs
-

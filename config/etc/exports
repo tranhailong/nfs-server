@@ -5,7 +5,7 @@
 # use exportfs -arv to reread
 #/export    192.168.1.10(rw,no_root_squash)
 
-/share *(rw,async,no_root_squash,no_subtree_check)
+/share *(rw,fsid=0,async,no_root_squash,no_subtree_check)
 
 # Uncomment and edit to add more folders to share. remember to mount the additional volumes to the corresponding path
 #$NFS_SHARE $NFS_CLIENT_IP(rw,async,no_root_squash)
