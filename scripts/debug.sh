@@ -1,6 +1,5 @@
 #!/bin/bash
 echo "Entering the container to examine"
 
-source environment
+source .env
 docker exec -it $CONTAINER_NAME ash
-

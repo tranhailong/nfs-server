@@ -7,12 +7,9 @@ RUN apk add git && \
 
 FROM alpine:3.17
 
-RUN apk add --no-cache --update --verbose nfs-utils fuse && \
-    rm -rf /var/cache/apk /tmp /sbin/halt /sbin/poweroff /sbin/reboot /etc/exports && \
-    echo "nfsd /proc/fs/nfsd nfsd defaults 0 0" >> /etc/fstab
+RUN apk add --update --no-cache fuse
 
 COPY --from=builder /tmp/bin/gcsfuse /usr/local/bin/gcsfuse
 COPY --from=builder /tmp/sbin/mount.gcsfuse /usr/sbin/mount.gcsfuse
-COPY . /nfs
 
-ENTRYPOINT /nfs/scripts/startup.sh && sleep infinity
+ENTRYPOINT /nfs/scripts/startup-gcs.sh && sleep infinity
