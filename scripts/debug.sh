@@ -2,4 +2,4 @@
 echo "Entering the container to examine"
 
 source .env
-docker exec -it $CONTAINER_NAME ash
+docker exec -it $_CONTAINER_NAME ash

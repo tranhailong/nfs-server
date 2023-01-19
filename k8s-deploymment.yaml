@@ -1,21 +1,68 @@
 # Sample K8S deployment config
-# Note this is incomplete. Will be updated once i got my manual test up and running
 
-#api-version: v2
-#type: Deployment
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nfs
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nfs-server
+  namespace: nfs
+  annotations:
+    iam.gke.io/gcp-service-account: ${IAM_SA_NAME}@${PROJECT}.iam.gserviceaccount.com
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server
+  namespace: nfs
+  labels:
+    app: nfs-server
 spec:
-  containers:
-  - name: ${CONTAINER_NAME}
-    image: tranhailong/${IMAGE}:${VERSION}
-    #image: ${IMAGE}:${VERSION}
-    securityContext:
-      privileged: true
-
-#    restart: unless-stopped
-#    volumes:
-#      - ./volumes/share:/share
-#      - ./config/etc/exports:/etc/exports
-#      - ./scripts/startup-gcs.sh:/usr/local/bin/startup-gcs.sh
-#    ports:
-#      - 2049:2049
-#    network: host
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-server
+  template:
+    metadata:
+      labels:
+        app: nfs-server
+    spec:
+      serviceAccount: nfs-server
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
+      containers:
+      - name: nfs-server  # ${_CONTAINER_NAME}
+        image: ${_REGISTRY}/${_IMAGE}:${TAG_NAME}${_TAG_SUFFIX}
+        ports:
+        - containerPort: 2049
+          name: nfs
+        securityContext:
+          privileged: true
+        #volumeMounts:
+        #- ./volumes/share:/share
+        #- ./config/etc/exports:/etc/exports
+        #- ./scripts/startup-gcs.sh:/usr/local/bin/startup-gcs.sh
+        #network: host
+      #volumes:
+      #- name: nfs-storage
+      #  hostPath:
+      #    path: /hostshare
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfs-service
+  namespace: nfs
+  labels:
+    run: nfs
+spec:
+  type: ClusterIP  # or LoadBalancer to get public IP at a cost
+  ports:
+  - port: 2049
+    name: nfs
+  selector:
+    app: nfs-server
