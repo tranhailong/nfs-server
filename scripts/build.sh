@@ -2,5 +2,4 @@
 echo "Building the docker image"
 
 source .env
-cp $DOCKERFILE Dockerfile
-docker build -t $IMAGE:$VERSION .
+docker build -t $_IMAGE:$TAG_NAME$_TAG_SUFFIX -f $_DOCKERFILE .

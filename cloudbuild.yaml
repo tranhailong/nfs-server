@@ -1,0 +1,16 @@
+steps:
+- id: build
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', '$_REGISTRY/$_IMAGE:$TAG_NAME$_TAG_SUFFIX',
+                  '-t', '$_REGISTRY/$_IMAGE:latest',
+                  #'-t', 'tranhailong/$_IMAGE:$TAG_NAME$_TAG_SUFFIX',
+                  #'-t', 'tranhailong/$_IMAGE:latest',
+                  '-f', '$_DOCKERFILE', '.'] 
+#- id: push1
+#  name: 'gcr.io/cloud-builders/docker'
+#  args: ['push', 'tranhailong/$_IMAGE', '-a']  # to figure out how to push to docker hub
+options:
+  logging: CLOUD_LOGGING_ONLY
+images:
+- $_REGISTRY/$_IMAGE:$TAG_NAME$_TAG_SUFFIX
+- $_REGISTRY/$_IMAGE:latest

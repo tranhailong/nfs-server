@@ -4,9 +4,9 @@ version: '3'
 
 services:
   nfs:
-    container_name: ${CONTAINER_NAME}
-    image: tranhailong/${IMAGE}:${VERSION}
-    #image: ${IMAGE}:${VERSION}
+    container_name: ${_CONTAINER_NAME}
+    image: ${_REGISTRY}/${_IMAGE}:${TAG_NAME}${_TAG_SUFFIX}
+    #image: ${_IMAGE}:${TAG_NAME}${_TAG_SUFFIX}
     restart: unless-stopped
     privileged: true
     #volumes:
