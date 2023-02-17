@@ -3,7 +3,8 @@ This is a simplified version of itsthenetwork/nfs-server-alpine, specifically to
 
 This project is hosted at https://github.com/tranhailong/nfs-server <br>
 Image is hosted at [tranhailong/nfs-server](https://hub.docker.com/repository/docker/tranhailong/nfs-server) <br>
-Chart is hosted at https://tranhailong.github.io/charts/ and [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/charts1)](https://artifacthub.io/packages/search?repo=charts1)
+Chart source is hosted at https://github.com/tranhailong/charts <br>
+Chart is hosted at https://github.com/tranhailong/charts/tree/master/charts/nfs-server and [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/tranhailong)](https://artifacthub.io/packages/search?repo=tranhailong)
 
 Have also noted various comments about latency, performance and consistency guarantee, and decided that this might be more appropriate for a few use cases:
 1. loading relatively static config files that i want to share across pods
