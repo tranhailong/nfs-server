@@ -34,22 +34,22 @@ spec:
       nodeSelector:
         iam.gke.io/gke-metadata-server-enabled: "true"
       containers:
-      - name: nfs-server  # ${_CONTAINER_NAME}
-        image: ${_REGISTRY}/${_IMAGE}:${TAG_NAME}${_TAG_SUFFIX}
-        ports:
-        - containerPort: 2049
-          name: nfs
-        securityContext:
-          privileged: true
-        #volumeMounts:
-        #- ./volumes/share:/share
-        #- ./config/etc/exports:/etc/exports
-        #- ./scripts/startup-gcs.sh:/usr/local/bin/startup-gcs.sh
-        #network: host
+        - name: nfs-server  # ${_CONTAINER_NAME}
+          image: ${_REGISTRY}/${_IMAGE}:${TAG_NAME}${_TAG_SUFFIX}
+          ports:
+            - containerPort: 2049
+              name: nfs
+          securityContext:
+            privileged: true
+          #volumeMounts:
+          #  - ./volumes/share:/share
+          #  - ./config/etc/exports:/etc/exports
+          #  - ./scripts/startup-gcs.sh:/usr/local/bin/startup-gcs.sh
+          #network: host
       #volumes:
-      #- name: nfs-storage
-      #  hostPath:
-      #    path: /hostshare
+      #  - name: nfs-storage
+      #    hostPath:
+      #      path: /hostshare
       restartPolicy: Always
 ---
 apiVersion: v1
@@ -62,7 +62,7 @@ metadata:
 spec:
   type: ClusterIP  # or LoadBalancer to get public IP at a cost
   ports:
-  - port: 2049
-    name: nfs
+    - port: 2049
+      name: nfs
   selector:
     app: nfs-server

@@ -2,7 +2,8 @@
 This is a simplified version of itsthenetwork/nfs-server-alpine, specifically to address my purpose: hosting persistent storage for GKE using GCS Fuse (which is cheaper and more flexible than GCE Persistent Drive or Filestore)
 
 This project is hosted at https://github.com/tranhailong/nfs-server <br>
-Image is hosted at [tranhailong/nfs-server](docker.io/tranhailong/nfs-server)
+Image is hosted at [tranhailong/nfs-server](https://hub.docker.com/repository/docker/tranhailong/nfs-server) <br>
+Chart is hosted at https://tranhailong.github.io/charts/ and [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/charts1)](https://artifacthub.io/packages/search?repo=charts1)
 
 Have also noted various comments about latency, performance and consistency guarantee, and decided that this might be more appropriate for a few use cases:
 1. loading relatively static config files that i want to share across pods
@@ -26,6 +27,18 @@ For gcsfuse, configuration is done by editing `scripts/startup-gcs.sh` and mount
 
 It's also possible to use in Docker Compose and K8S, see the corresponding samples `docker-compose.yaml` and `k8s-deployment.yaml`, edit accordingly.
 
+To deploy through helm, run
+```
+helm repo add tranhailong https://tranhailong.github.io/charts
+helm install my-nfs-server tranhailong/nfs-server --version 0.1.0
+```
+
+You will need to override
+- `image.repository` to GCR image if running on a GKE private cluster
+- `serviceAccount.annotations` to GCP IAM SA email to allow GCS Fuse to authenticate
+
+Refer (helm-values.yaml) for details
+
 ## Decisions and Notes
 - GKE internal cluster only able to load images from GCP Artifact Registry, thus using GCP Cloud Build to automatically load the images in there.
 - GCP authentication for the container - there are 2 routes (service account and creating manual key.json and mount it inside the container). I prefer service account, as it's cleaner and avoid hacking it as well as having secrets lying around. Managed to make it work by creating GCP IAM Service Account and link to the GKE K8S Service Account using Workload Identity
@@ -48,8 +61,8 @@ For GCS Fuse, looks a little more promising. potentially just need to `df -h` to
 
 ## Versioning
 Releases are tagged based on the `${UNDERLYING_PACKAGE_VERSION}-${VERSION}`. <br>
-`${UNDERLYING_PACKAGE_VERSION}` refers to NFS (4.2) / GCS Fuse (0.41.11) as of 2023/01/20. <br>
-So current releases would be `nfs-server:4.2-1`, `nfs-server:4.2-1-gcsfuse`, `gcsfuse:0.41.11-1`
+`${UNDERLYING_PACKAGE_VERSION}` refers to NFS (4.2) / GCS Fuse (0.41.12) as of 2023/02/16. <br>
+So current releases would be `nfs-server:4.2-2`, `nfs-server:4.2-2-gcsfuse`, `gcsfuse:0.41.12-2`
 
 ## References
 - [itsthenetwork/nfs-server-alpine](https://github.com/sjiveson/nfs-server-alpine) - a more thoroughly built and flexible NFS server with more error handling and support for more architecture. Our NFS server is a purpose-built reduction from this image.
